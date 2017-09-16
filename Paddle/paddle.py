@@ -37,6 +37,16 @@ class word2vec:
         i2 = int(self.word_dict[s2])
         return spatial.distance.cosine(self.embedding_table[i1], self.embedding_table[i2])
 
+
+class sentiment_classification:
+    if not os.path.isfile("inference_topology.pkl"):
+            urllib.urlretrieve("https://s3.us-east-2.amazonaws.com/models.paddlepaddle/04.word2vec/inference_topology.pkl", "inference_topology.pkl")
+        if not os.path.isfile("param.tar"):
+            urllib.urlretrieve("https://s3.us-east-2.amazonaws.com/models.paddlepaddle/04.word2vec/param.tar", "param.tar")
+        if not os.path.isfile("word_dict"):
+            urllib.urlretrieve("https://s3.us-east-2.amazonaws.com/models.paddlepaddle/04.word2vec/word_dict", "word_dict")
+     
+
         
 
 
