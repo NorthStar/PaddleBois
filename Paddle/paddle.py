@@ -3,6 +3,7 @@ import urllib
 import scipy
 from scipy import spatial
 import numpy
+import tarfile,sys
 
 
 # 1
@@ -31,22 +32,23 @@ class word2vec:
         return spatial.distance.cosine(self.embedding_table[i1], self.embedding_table[i2])
 
     def load_files(self):
-        if not os.path.isfile("/models/word2vec/inference_topology.pkl"):
+        if not os.path.isfile("models/word2vec/inference_topology.pkl"):
             urllib.urlretrieve("https://s3.us-east-2.amazonaws.com/models.paddlepaddle/04.word2vec/inference_topology.pkl",
                                "models/word2vec/inference_topology.pkl")
             print("Loading models/word2vec/inference_topology.pkl . . .")
 
-        if not os.path.isfile("/models/word2vec/param.tar"):
+        if not os.path.isfile("models/word2vec/param.tar"):
             urllib.urlretrieve("https://s3.us-east-2.amazonaws.com/models.paddlepaddle/04.word2vec/param.tar",
                                "models/word2vec/param.tar")
+            extract_tar("models/word2vec/param.tar")
             print("Loading models/word2vec/param.tar . . .")
 
-        if not os.path.isfile("/models/word2vec/word_dict"):
+        if not os.path.isfile("models/word2vec/word_dict"):
             urllib.urlretrieve("https://s3.us-east-2.amazonaws.com/models.paddlepaddle/04.word2vec/word_dict",
                                "models/word2vec/word_dict")
             print("Loading models/word2vec/word_dict . . .")
 
-        if not os.path.isfile("/models/word2vec/embedding_table"):
+        if not os.path.isfile("models/word2vec/embedding_table"):
             urllib.urlretrieve("https://s3.us-east-2.amazonaws.com/models.paddlepaddle/04.word2vec/embedding_table",
                                "models/word2vec/embedding_table")
             print("Loading models/word2vec/embedding_table . . .")
@@ -67,6 +69,7 @@ class image_classification:
         if not os.path.isfile("models/image_classification/param.tar"):
             urllib.urlretrieve("https://s3.us-east-2.amazonaws.com/models.paddlepaddle/03.image_classification/param.tar",
                                "models/image_classification/param.tar")
+            extract_tar("models/image_classification/param.tar")
             print("Loading models/image_classification/param.tar . . .")
 
 
@@ -85,11 +88,13 @@ class sentiment_classification:
         if not os.path.isfile("models/sentiment_classification/param.tar"):
             urllib.urlretrieve("https://s3.us-east-2.amazonaws.com/models.paddlepaddle/06.understand_sentiment/param.tar",
                                "models/sentiment_classification/param.tar")
+            extract_tar("models/sentiment_classification/param.tar")
             print("Loading models/sentiment_classification/param.tar . . .")
 
         if not os.path.isfile("models/sentiment_classification/word_dict.tar"):
             urllib.urlretrieve("https://s3.us-east-2.amazonaws.com/models.paddlepaddle/06.understand_sentiment/word_dict.tar",
                                "models/sentiment_classification/word_dict.tar")
+            extract_tar("models/sentiment_classification/word_dict.tar")
             print("Loading models/sentiment_classification/word_dict.tar . . .")
 
 
@@ -108,6 +113,7 @@ class machine_translation:
         if not os.path.isfile("models/machine_translation/param.tar"):
             urllib.urlretrieve("https://s3.us-east-2.amazonaws.com/models.paddlepaddle/08.machine_translation/param.tar",
                                "models/machine_translation/param.tar")
+            extract_tar("models/machine_translation/param.tar")
             print("Loading models/machine_translation/param.tar . . .")
 
         if not os.path.isfile("models/machine_translation/src_dict.txt"):
@@ -136,5 +142,30 @@ class recognize_digits:
         if not os.path.isfile("models/recognize_digits/param.tar"):
             urllib.urlretrieve("https://s3.us-east-2.amazonaws.com/models.paddlepaddle/param.tar",
                               "models/recognize_digits/param.tar")
+            extract_tar("models/recognize_digits/param.tar")
             print("Loading models/recognize_digits/param.tar . . .")
 
+
+# 6
+class object_detection:
+
+    def __init__(self):
+        self.load_files()
+
+    def load_files(self):
+        if not os.path.isfile("models/object_detection/inference_topology.pkl"):
+            urllib.urlretrieve("https://s3.us-east-2.amazonaws.com/models.paddlepaddle/SSD/inference_topology.pkl",
+                               "models/object_detection/inference_topology.pkl")
+            print("Loading models/object_detection/inference_topology.pkl . . .")
+
+        if not os.path.isfile("models/object_detection/param.tar"):
+            urllib.urlretrieve("https://s3.us-east-2.amazonaws.com/models.paddlepaddle/SSD/param.tar",
+                              "models/object_detection/param.tar")
+            extract_tar("models/object_detection/param.tar")
+            print("Loading models/object_detection/param.tar . . .")
+
+
+def extract_tar(file_path):
+    tar = tarfile.open(file_path)
+    tar.extractall()
+    tar.close()
