@@ -39,12 +39,12 @@ class word2vec:
 
 
 class sentiment_classification:
-    if not os.path.isfile("inference_topology.pkl"):
-            urllib.urlretrieve("https://s3.us-east-2.amazonaws.com/models.paddlepaddle/04.word2vec/inference_topology.pkl", "inference_topology.pkl")
-        if not os.path.isfile("param.tar"):
-            urllib.urlretrieve("https://s3.us-east-2.amazonaws.com/models.paddlepaddle/04.word2vec/param.tar", "param.tar")
-        if not os.path.isfile("word_dict"):
-            urllib.urlretrieve("https://s3.us-east-2.amazonaws.com/models.paddlepaddle/04.word2vec/word_dict", "word_dict")
+    if not os.path.isfile("/models/sentiment_classification/inference_topology.pkl"):
+            urllib.urlretrieve("https://s3.us-east-2.amazonaws.com/models.paddlepaddle/06.understand_sentiment/inference_topology.pkl", "models/sentiment_classification/inference_topology.pkl")
+    if not os.path.isfile("/models/sentiment_classification/param.tar"):
+            urllib.urlretrieve("https://s3.us-east-2.amazonaws.com/models.paddlepaddle/06.understand_sentiment/param.tar", "models/sentiment_classification/param.tar")
+    if not os.path.isfile("/models/sentiment_classification/word_dict"):
+            urllib.urlretrieve("https://s3.us-east-2.amazonaws.com/models.paddlepaddle/06.understand_sentiment/word_dict.tar", "models/sentiment_classification/word_dict.tar")
      
 
         
