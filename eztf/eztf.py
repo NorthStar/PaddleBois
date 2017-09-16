@@ -1,5 +1,5 @@
 import tensorflow
 
-
-class easyModel:
-    def __init__()
+class EasyModel:
+    def __init__():
+        pass
