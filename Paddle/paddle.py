@@ -9,6 +9,7 @@ import scipy
 from scipy import spatial
 import tarfile,sys
 
+IMAGE_SIZE = 28
 #BACKEND_URL = "ip-172-31-42-171"
 # 1
 class word2vec:
@@ -151,7 +152,7 @@ class machine_translation:
             urllib.urlretrieve("https://s3.us-east-2.amazonaws.com/models.paddlepaddle/08.machine_translation/trg_dict.txt",
                                "models/machine_translation/trg_dict.txt")
             print("Loading models/machine_translation/trg_dict.txt . . .")
-
+    
 
 # 5
 class recognize_digits:
@@ -170,6 +171,17 @@ class recognize_digits:
                               "models/recognize_digits/param.tar")
             extract_tar("models/recognize_digits/param.tar")
             print("Loading models/recognize_digits/param.tar . . .")
+
+    def run(self, img_file):
+        BACKEND_URL = "http://35.167.14.53:2000"
+        img = cv2.imread(img_file, 0)
+        img.resize((IMAGE_SIZE, IMAGE_SIZE))
+        img = img.flatten()
+        req = {"img": img.tolist()}
+        res = requests.request("POST", url=BACKEND_URL, json=req)
+        print("printing json")
+        print(json.dumps(res.json()))
+
 
 
 # 6
