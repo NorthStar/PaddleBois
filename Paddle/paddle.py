@@ -1,5 +1,7 @@
 import numpy as np
 import numpy
+import paramiko
+from scp import SCPClient
 import cv2
 import os.path
 import urllib
@@ -63,6 +65,18 @@ class image_classification:
 
     def __init__(self):
         self.load_files()
+        client = paramiko.SSHClient()
+        client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
+        k = paramiko.RSAKey.from_private_key_file("hackmit-paddlepaddle-1.pem")
+        client.connect(hostname='35.167.14.53', username='ubuntu',pkey=k)
+        scp = SCPClient(client.get_transport())
+        stdin, stdout, stderr = client.exec_command('mkdir models')
+        stdin, stdout, stderr = client.exec_command('mkdir models/image_classification')
+        client.exec_command('cd models/image_classification')
+        client.exec_command('nvidia-docker run --name=my_svr -v `pwd`:/data -d -p 8000:80 -e WITH_GPU=1 paddlepaddle/book:serve-gpu')
+        scp.put('models/image_classification/inference_topology.pkl','models/image_classification/inference_topology.pkl') 
+        scp.close()
+        client.close()
 
 
     def load_files(self):
