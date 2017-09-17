@@ -1,5 +1,6 @@
 from os.path import join, isfile
 import urllib
+from datasets import dataset_utils
 
 import numpy as np
 
@@ -7,12 +8,26 @@ from PIL import Image
 
 import tensorflow as tf
 import tensorflow.contrib.slim as slim
-from inception_resnet_v2 import inception_resnet_v2, inception_resnet_v2_arg_scope
+from nets.inception_resnet_v2 import inception_resnet_v2, inception_resnet_v2_arg_scope
 
-class Inception(object):
+class Inception_Resnet_V2(object):
 
     def __init__(self):
-        self.checkpoints_filename = 'nets/inception_resnet_v2_2016_08_30.ckpt'
+        url = "http://download.tensorflow.org/models/inception_resnet_v2_2016_08_30.tar.gz"
+        checkpoints_dir = '/tmp/checkpoints'
+        checkpoints_filename = 'inception_resnet_v2_2016_08_30.ckpt'
+
+        if not tf.gfile.Exists(checkpoints_dir):
+            tf.gfile.MakeDirs(checkpoints_dir)
+
+        if not tf.gfile.Exists(join(checkpoints_dir, checkpoints_filename)):
+            dataset_utils.download_and_uncompress_tarball(url,
+                checkpoints_dir)
+
+        self.checkpoints_filename = join(
+                checkpoints_dir,
+                checkpoints_filename)
+
         self.model_name = 'InceptionResnetV2'
 
     def run(self, images):
