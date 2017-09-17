@@ -1,11 +1,13 @@
 # EZPaddle
 
-EZPaddle is a framework to allow you to use Paddle's pre-trained models with jsut one line of code.
+EZPaddle is a framework to allow you to use Paddle's pre-trained models with just one line of code.
 
 ```
 model = paddle.sentiment_classification()
 model.run([8,37,7])
 ```
+With EZPaddle, you don't need any setup whatsoever. Our backend code handles everything from server startup to preprocessing for you, so you can just focus on your code :) 
+
 ## Parameters
 Set the parameters in paddle.py
 ```
