@@ -30,19 +30,15 @@ class word2vec:
         self.embedding_table = numpy.loadtxt("models/word2vec/embedding_table", delimiter=",")
 
     def run(self, s1, s2):
-        if s1 in self.word_dict:
-            print("contains s1")
-        else:
-            print(self.word_dict)
-            print("doesn't contain")
         i1 = int(self.word_dict[s1])
         i2 = int(self.word_dict[s2])
+
+        print(spatial.distance.cosine(self.embedding_table[i1], self.embedding_table[i2]))
         return spatial.distance.cosine(self.embedding_table[i1], self.embedding_table[i2])
 
     def load_files(self):
         if not os.path.isdir("models/word2vec/"):
             os.mkdir("models/word2vec/")
-            print("making word2vec directory")
 
         if not os.path.isfile("models/word2vec/inference_topology.pkl"):
             urllib.request.urlretrieve("https://s3.us-east-2.amazonaws.com/models.paddlepaddle/04.word2vec/inference_topology.pkl",
@@ -85,8 +81,6 @@ class image_classification:
        
         #run docker commamdn
         stdin, stdout, stderr = client.exec_command('nvidia-docker run --name=my_svr -v `pwd`:/data -d -p 8000:80 -e WITH_GPU=1 paddlepaddle/book:serve-gpu')
-        print(stdout)
-        
         scp.close()
         client.close()
 
@@ -143,7 +137,6 @@ class sentiment_classification:
        
         #run docker commamdn
         stdin, stdout, stderr = client.exec_command('docker run --name sentimentdocker -v `pwd`:/data -d -p 3000:80 -e WITH_GPU=0 paddlepaddle/book:serve')
-        print(stdout)
         scp.close()
         client.close()
 
@@ -291,7 +284,6 @@ class recognize_digits:
        
         #run docker commamdn
         stdin, stdout, stderr = client.exec_command('nvidia-docker run --name my_svr -d -v $PWD:/data -p 2000:80 -e WITH_GPU=1 paddlepaddle/book:serve-gpu')
-        print(stdout)
         scp.close()
         client.close()
 
