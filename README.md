@@ -1,13 +1,20 @@
-# PaddleBois
+# EZPaddle
 
+EZPaddle is a framework to allow you to use Paddle's pre-trained models with jsut one line of code.
 
-## CAll Server 
-ssh -i hackmit-paddlepaddle-1.pem ubuntu@35.167.14.53
+```
+model = paddle.sentiment_classification()
+model.run([8,37,7])
+```
+## Parameters
+Set the parameters in paddle.py
+```
+hostname = 35.167.14.53
+sentiment_analysis_port = 6000
+machine_translation_port = 2000
+image_recognition_port = 3000
+```
 
-# starting docker server
-(see init())
-#Ending docker server (example)
-docker rm -f e50ad077c9e7006b3ffef2f0e888c0700623c9ca69ca432227fe590e32039424
 
 ## Structure
 

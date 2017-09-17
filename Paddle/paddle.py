@@ -12,7 +12,9 @@ import math
 from scipy import spatial
 import tarfile,sys
 
+
 IMAGE_SIZE = 28
+
 #BACKEND_URL = "ip-172-31-42-171"
 # 1
 class word2vec:
