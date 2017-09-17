@@ -17,11 +17,12 @@ res = model4.run([8,37,7])
 
 
 # 4
-#model = paddle.machine_translation()
+model5 = paddle.machine_translation()
 
 # 5
-#model = paddle.recognize_digits()
+model6 = paddle.recognize_digits()
+res = model6.run('img.png')
 
 # 6
-#model = paddle.object_detection()
+model7 = paddle.object_detection()
 

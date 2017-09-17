@@ -73,8 +73,14 @@ class image_classification:
         stdin, stdout, stderr = client.exec_command('mkdir models')
         stdin, stdout, stderr = client.exec_command('mkdir models/image_classification')
         client.exec_command('cd models/image_classification')
-        client.exec_command('nvidia-docker run --name=my_svr -v `pwd`:/data -d -p 8000:80 -e WITH_GPU=1 paddlepaddle/book:serve-gpu')
+
+        #move files to remote server
         scp.put('models/image_classification/inference_topology.pkl','models/image_classification/inference_topology.pkl') 
+        scp.put('models/image_classification/param.tar','models/image_classification/param.tar') 
+       
+        #run docker commamdn
+        stdin, stdout, stderr = client.exec_command('nvidia-docker run --name=my_svr -v `pwd`:/data -d -p 8000:80 -e WITH_GPU=1 paddlepaddle/book:serve-gpu')
+        print(stdout)
         scp.close()
         client.close()
 
@@ -111,6 +117,26 @@ class sentiment_classification:
 
     def __init__(self):
         self.load_files()
+        client = paramiko.SSHClient()
+        client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
+        k = paramiko.RSAKey.from_private_key_file("hackmit-paddlepaddle-1.pem")
+        client.connect(hostname='35.167.14.53', username='ubuntu',pkey=k)
+        scp = SCPClient(client.get_transport())
+        stdin, stdout, stderr = client.exec_command('mkdir models')
+        stdin, stdout, stderr = client.exec_command('mkdir models/sentiment_classification')
+        client.exec_command('cd models/sentiment_classification')
+
+        #move files to remote server
+        scp.put('models/sentiment_classification/inference_topology.pkl','models/sentiment_classification/inference_topology.pkl') 
+        scp.put('models/sentiment_classification/param.tar','models/sentiment_classification/param.tar') 
+        scp.put('models/sentiment_classification/word_dict.tar','models/sentiment_classification/word_dict.tar')
+       
+        #run docker commamdn
+        stdin, stdout, stderr = client.exec_command('docker run --name sentimentdocker -v `pwd`:/data -d -p 3000:80 -e WITH_GPU=0 paddlepaddle/book:serve')
+        print(stdout)
+        scp.close()
+        client.close()
+
 
     def load_files(self):
         if not os.path.isfile("models/sentiment_classification/inference_topology.pkl"):
@@ -173,6 +199,28 @@ class recognize_digits:
 
     def __init__(self):
         self.load_files()
+        client = paramiko.SSHClient()
+        client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
+        k = paramiko.RSAKey.from_private_key_file("hackmit-paddlepaddle-1.pem")
+        client.connect(hostname='35.167.14.53', username='ubuntu',pkey=k)
+        scp = SCPClient(client.get_transport())
+        stdin, stdout, stderr = client.exec_command('mkdir models')
+        stdin, stdout, stderr = client.exec_command('mkdir models/recognize_digits')
+        client.exec_command('cd models/recognize_digits')
+
+        #move files to remote server
+        scp.put('models/recognize_digits/inference_topology.pkl','models/recognize_digits/inference_topology.pkl') 
+        scp.put('models/recognize_digits/param.tar','models/recognize_digits/param.tar') 
+       
+        #run docker commamdn
+        stdin, stdout, stderr = client.exec_command('nvidia-docker run --name my_svr -d -v $PWD:/data -p 2000:80 -e WITH_GPU=1 paddlepaddle/book:serve-gpu')
+        print(stdout)
+        scp.close()
+        client.close()
+
+
+
+
 
     def load_files(self):
         if not os.path.isfile("models/recognize_digits/inference_topology.pkl"):
