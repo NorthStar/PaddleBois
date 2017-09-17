@@ -19,6 +19,7 @@ image_recognition_port = 3000
 
 
 ## Structure
+All code is in the Paddle folder. 
 
 ### init()
 1. Download files
