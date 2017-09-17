@@ -1,11 +1,15 @@
+import numpy as np
+import numpy
+import cv2
 import os.path
 import urllib
+import json
+import requests
 import scipy
 from scipy import spatial
-import numpy
 import tarfile,sys
 
-
+#BACKEND_URL = "ip-172-31-42-171"
 # 1
 class word2vec:
 
@@ -72,6 +76,20 @@ class image_classification:
             extract_tar("models/image_classification/param.tar")
             print("Loading models/image_classification/param.tar . . .")
 
+    def run(self, img_file):
+        BACKEND_URL = "http://35.167.14.53:8000"
+        img = cv2.imread(img_file)
+        print("read in image")
+        img = np.swapaxes(img, 1, 2)
+        img = np.swapaxes(img, 1, 0)
+        arr = img.flatten()
+        arr = arr / 255.0
+        req = {"image": arr.tolist()}
+        print(req)
+        res = requests.request("POST", url=BACKEND_URL, json=req)
+        print("printing json")
+        print(json.dumps(res.json()))
+
 
 # 3
 class sentiment_classification:
@@ -96,7 +114,15 @@ class sentiment_classification:
                                "models/sentiment_classification/word_dict.tar")
             extract_tar("models/sentiment_classification/word_dict.tar")
             print("Loading models/sentiment_classification/word_dict.tar . . .")
+    
+    def run(self, indices):
+        BACKEND_URL = "http://35.167.14.53:3000"
+        req = {"word":indices}
+        print(req)
+        res = requests.request("POST", url=BACKEND_URL, json=req)
+        print(json.dumps(res.json()))
 
+    
 
 # 4
 class machine_translation:
