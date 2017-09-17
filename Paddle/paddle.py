@@ -12,7 +12,10 @@ import math
 from scipy import spatial
 import tarfile,sys
 
-
+HOSTNAME = '35.167.14.53'
+PORT_sentiment_analysis = 8000
+PORT_machine_translation = 6000
+PORT_image_recognition = 2000
 IMAGE_SIZE = 28
 
 #BACKEND_URL = "ip-172-31-42-171"
